@@ -1,0 +1,290 @@
+{
+  "trained_on": "2026-11-26",
+  "implementation": "NumPy, SGD, MSE",
+  "seed": 42,
+  "training_count": 54000,
+  "validation_count": 6000,
+  "test_count": 10000,
+  "epochs": 30,
+  "best_epoch": 30,
+  "batch_size": 100,
+  "learning_rate": 0.088,
+  "test_accuracy": 0.9323,
+  "test_mse": 0.010549829341471195,
+  "validation_history": [
+    {
+      "epoch": 1,
+      "validation_accuracy": 0.20516666666666666,
+      "validation_mse": 0.08921601623296738
+    },
+    {
+      "epoch": 2,
+      "validation_accuracy": 0.3338333333333333,
+      "validation_mse": 0.08702228963375092
+    },
+    {
+      "epoch": 3,
+      "validation_accuracy": 0.3895,
+      "validation_mse": 0.0777261033654213
+    },
+    {
+      "epoch": 4,
+      "validation_accuracy": 0.5528333333333333,
+      "validation_mse": 0.0628589540719986
+    },
+    {
+      "epoch": 5,
+      "validation_accuracy": 0.7188333333333333,
+      "validation_mse": 0.04381531849503517
+    },
+    {
+      "epoch": 6,
+      "validation_accuracy": 0.7731666666666667,
+      "validation_mse": 0.033073026686906815
+    },
+    {
+      "epoch": 7,
+      "validation_accuracy": 0.8413333333333334,
+      "validation_mse": 0.02449035830795765
+    },
+    {
+      "epoch": 8,
+      "validation_accuracy": 0.856,
+      "validation_mse": 0.021698232740163803
+    },
+    {
+      "epoch": 9,
+      "validation_accuracy": 0.869,
+      "validation_mse": 0.020202718675136566
+    },
+    {
+      "epoch": 10,
+      "validation_accuracy": 0.8803333333333333,
+      "validation_mse": 0.018927428871393204
+    },
+    {
+      "epoch": 11,
+      "validation_accuracy": 0.8803333333333333,
+      "validation_mse": 0.018357958644628525
+    },
+    {
+      "epoch": 12,
+      "validation_accuracy": 0.8871666666666667,
+      "validation_mse": 0.017292890697717667
+    },
+    {
+      "epoch": 13,
+      "validation_accuracy": 0.8918333333333334,
+      "validation_mse": 0.016671478748321533
+    },
+    {
+      "epoch": 14,
+      "validation_accuracy": 0.8938333333333334,
+      "validation_mse": 0.016238423064351082
+    },
+    {
+      "epoch": 15,
+      "validation_accuracy": 0.8961666666666667,
+      "validation_mse": 0.015894616022706032
+    },
+    {
+      "epoch": 16,
+      "validation_accuracy": 0.9006666666666666,
+      "validation_mse": 0.01521576289087534
+    },
+    {
+      "epoch": 17,
+      "validation_accuracy": 0.9016666666666666,
+      "validation_mse": 0.015114064328372478
+    },
+    {
+      "epoch": 18,
+      "validation_accuracy": 0.9036666666666666,
+      "validation_mse": 0.014551901258528233
+    },
+    {
+      "epoch": 19,
+      "validation_accuracy": 0.9046666666666666,
+      "validation_mse": 0.01428279373794794
+    },
+    {
+      "epoch": 20,
+      "validation_accuracy": 0.9101666666666667,
+      "validation_mse": 0.014013377018272877
+    },
+    {
+      "epoch": 21,
+      "validation_accuracy": 0.9093333333333333,
+      "validation_mse": 0.01368154026567936
+    },
+    {
+      "epoch": 22,
+      "validation_accuracy": 0.9113333333333333,
+      "validation_mse": 0.01347764115780592
+    },
+    {
+      "epoch": 23,
+      "validation_accuracy": 0.9125,
+      "validation_mse": 0.01329039130359888
+    },
+    {
+      "epoch": 24,
+      "validation_accuracy": 0.9148333333333334,
+      "validation_mse": 0.013103658333420753
+    },
+    {
+      "epoch": 25,
+      "validation_accuracy": 0.9153333333333333,
+      "validation_mse": 0.012833605520427227
+    },
+    {
+      "epoch": 26,
+      "validation_accuracy": 0.9166666666666666,
+      "validation_mse": 0.012615203857421875
+    },
+    {
+      "epoch": 27,
+      "validation_accuracy": 0.918,
+      "validation_mse": 0.012565918266773224
+    },
+    {
+      "epoch": 28,
+      "validation_accuracy": 0.9176666666666666,
+      "validation_mse": 0.012455231510102749
+    },
+    {
+      "epoch": 29,
+      "validation_accuracy": 0.9196666666666666,
+      "validation_mse": 0.012167228385806084
+    },
+    {
+      "epoch": 30,
+      "validation_accuracy": 0.9203333333333333,
+      "validation_mse": 0.012059643864631653
+    }
+  ],
+  "confusion_matrix": [
+    [
+      960,
+      0,
+      5,
+      1,
+      0,
+      5,
+      6,
+      1,
+      2,
+      0
+    ],
+    [
+      0,
+      1105,
+      4,
+      4,
+      0,
+      3,
+      4,
+      2,
+      13,
+      0
+    ],
+    [
+      16,
+      3,
+      952,
+      5,
+      7,
+      1,
+      10,
+      15,
+      20,
+      3
+    ],
+    [
+      1,
+      0,
+      25,
+      916,
+      0,
+      32,
+      4,
+      8,
+      18,
+      6
+    ],
+    [
+      1,
+      3,
+      3,
+      0,
+      926,
+      0,
+      15,
+      2,
+      4,
+      28
+    ],
+    [
+      11,
+      3,
+      4,
+      31,
+      3,
+      792,
+      17,
+      6,
+      19,
+      6
+    ],
+    [
+      17,
+      3,
+      5,
+      0,
+      11,
+      12,
+      906,
+      0,
+      4,
+      0
+    ],
+    [
+      5,
+      8,
+      26,
+      2,
+      7,
+      1,
+      0,
+      956,
+      3,
+      20
+    ],
+    [
+      6,
+      4,
+      6,
+      13,
+      7,
+      17,
+      14,
+      9,
+      896,
+      2
+    ],
+    [
+      12,
+      7,
+      1,
+      10,
+      31,
+      11,
+      1,
+      15,
+      7,
+      914
+    ]
+  ],
+  "dataset_source": "https://keras.io/api/datasets/mnist/",
+  "historical_2024_test_accuracy": 0.9309
+}
