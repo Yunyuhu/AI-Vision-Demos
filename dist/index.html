@@ -3,33 +3,92 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="胡芸毓的 MNIST 互動實作。寫下一個數字，查看模型的辨識與處理後影像。">
-  <title>手寫數字辨識｜胡芸毓</title>
+  <meta name="description" content="在方格紙上寫一個數字，看神經網路邊看邊猜，並查看它實際看到的 28×28 影像與學習紀錄。">
+  <meta name="theme-color" content="#fbf7ee">
+  <title>數字辨識筆記｜手寫一個數字，看模型怎麼想</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- 導覽直接連結作品原始資料，讓訪客能接續閱讀實作來源。 -->
-  <header class="top"><a class="brand" href="https://yunyu-web-digital-profile.vercel.app">胡芸毓 <span>Yunyu Hu</span></a><a href="https://github.com/Yunyuhu/AI-Practice-2024/blob/main/course/week05_mnist_dense_nn.ipynb" target="_blank" rel="noopener">原始實作 ↗</a></header>
+  <header class="top">
+    <span class="brand">數字辨識筆記</span>
+    <a class="credit" href="https://yunyu-web-digital-profile.vercel.app">© 2026 Yunyu Hu</a>
+  </header>
+
   <main>
-    <div class="intro"><p class="eyebrow">AI 應用實作 · MNIST</p><h1>寫一個數字，<br>看看模型怎麼判斷。</h1><p>在畫布中央寫下 0 到 9。模型會在你的瀏覽器裡辨識，並顯示每個答案的分數。</p></div>
-    <div class="workspace">
-      <section class="drawing panel" aria-labelledby="draw-title">
-        <div class="panel-heading"><h2 id="draw-title">你的手寫數字</h2><span class="pill">可用滑鼠或觸控</span></div>
-        <div class="canvas-wrap"><canvas id="drawing" width="280" height="280" aria-label="數字繪圖區，或使用下方範例按鈕" tabindex="0"></canvas><span id="hint">在這裡寫下一個數字</span></div>
-        <div class="actions"><button id="recognize" class="primary" disabled>載入模型中</button><button id="clear">清除</button></div>
-        <p class="small">一次寫一個數字，盡量寫在中央並留下邊界。</p>
-        <div class="example-block"><h3>也可以先試試資料集範例</h3><div id="examples" class="examples" aria-label="選擇測試數字範例"></div><p class="small">再點同一個數字，可換另一張範例。</p></div>
-      </section>
-      <section class="results panel" aria-labelledby="result-title">
-        <div class="panel-heading"><h2 id="result-title">辨識結果</h2><span id="model-state" class="pill">準備中</span></div>
-        <div class="prediction" aria-live="polite"><div id="answer">?</div><div><p id="result-text">等你寫下第一個數字</p><p id="confidence" class="small">這裡會顯示模型的相對分數</p></div></div>
-        <div id="bars" class="bars" aria-label="十個數字的模型分數"></div>
-        <div class="preview"><canvas id="processed" width="28" height="28" aria-label="模型實際讀取的二十八乘二十八像素影像"></canvas><div><h3>模型實際看到的影像</h3><p class="small">裁切筆跡、縮放並置中，轉成 28 × 28 灰階影像。</p></div></div>
-        <p id="status" class="status" role="status">模型下載完成後即可操作。</p>
-      </section>
-    </div>
-    <section class="about"><div><p class="eyebrow">從實驗到可操作成果</p><h2>把訓練過程，接到真實輸入。</h2><p>原始練習以 TensorFlow／Keras 建立全連接神經網路，記錄訓練參數調整。本展示保留 784 → 11 → 73 → 52 → 61 → 10 的架構，以 NumPy 重新訓練並匯出權重，讓瀏覽器可直接推論。</p><p>2026 整理版補上固定隨機種子、驗證集選模、手寫輸入前處理與前後端推論一致性檢查。這次重訓的評估與 2024 原始紀錄分開呈現。</p></div><div class="evaluation"><h3>這次重訓的評估</h3><div id="accuracy">讀取評估紀錄中</div><p id="metric-detail" class="small"></p><p class="small">資料集測試分數不代表每一種手寫方式都能正確辨識。模型分數也未經信心校準。</p><details><summary>查看訓練設定與限制</summary><p id="training-info"></p><p>模型以 MNIST 單一數字資料訓練。多個數字、字母、符號及差異較大的筆跡，可能得到錯誤結果。樣本依資料集順序選取，未依辨識結果篩選。</p><a href="metrics.json" target="_blank">完整評估紀錄</a></details></div></section>
-    <footer>胡芸毓的 AI 實作整理 · <a href="https://keras.io/api/datasets/mnist/" target="_blank" rel="noopener">MNIST 資料來源與授權</a><span>筆跡留在瀏覽器內，不會上傳。</span></footer>
+    <section class="desk" aria-label="手寫與辨識">
+      <div class="page">
+        <div class="page-head">
+          <h1>寫一個 0～9 的數字</h1>
+          <p class="hint-line">邊寫，模型就邊猜。寫大一點、寫在中間比較準。</p>
+        </div>
+        <div class="paper" id="paper">
+          <canvas id="drawing" width="280" height="280" aria-label="手寫區：用滑鼠或手指寫一個數字" tabindex="0"></canvas>
+          <span class="placeholder" id="hint">在這裡寫</span>
+        </div>
+        <div class="tools">
+          <button id="clear" type="button" class="eraser">擦掉重寫</button>
+          <span class="status" id="status" role="status">模型載入中…</span>
+        </div>
+      </div>
+
+      <div class="verdict">
+        <div class="stamp-row">
+          <div class="stamp" id="stamp" aria-live="polite"><span id="answer">?</span></div>
+          <div>
+            <p class="guess" id="result-text">等你寫第一個數字</p>
+            <p class="sub" id="confidence">模型會給 0～9 每個答案一個分數</p>
+          </div>
+        </div>
+        <div class="columns" id="bars" role="img" aria-label="十個數字的模型分數"></div>
+        <div class="seen">
+          <div class="seen-pic"><canvas id="processed" width="28" height="28" aria-label="模型實際讀到的 28×28 影像"></canvas><span class="peek" id="peek" hidden></span></div>
+          <div>
+            <h2>模型實際看到的樣子</h2>
+            <p class="sub">筆跡會被裁切、縮小、置中成 28×28 的灰階格子。把滑鼠移到格子上，可以看每一格的亮度。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="samples" aria-labelledby="samples-title">
+      <h2 id="samples-title">沒靈感？借別人的字來試試</h2>
+      <p class="sub">這些是 MNIST 測試資料裡真實的手寫數字。再點一次同一張，會換成另一個人寫的。</p>
+      <div class="sample-row" id="examples"></div>
+    </section>
+
+    <section class="report" aria-labelledby="report-title">
+      <div class="report-head">
+        <h2 id="report-title">這個模型學得怎麼樣？</h2>
+        <p class="score"><b id="accuracy">--</b><span id="metric-detail">讀取評估紀錄中</span></p>
+      </div>
+      <div class="charts">
+        <figure class="card">
+          <figcaption>學習曲線：每一輪訓練後，在驗證資料上的正確率</figcaption>
+          <svg id="curve" viewBox="0 0 320 180" role="img" aria-label="驗證正確率學習曲線"></svg>
+        </figure>
+        <figure class="card">
+          <figcaption>每個數字答對多少 <span class="sub">（長條從 70% 起算）</span></figcaption>
+          <div id="per-digit" class="per-digit"></div>
+        </figure>
+        <figure class="card wide">
+          <figcaption>最常搞混的組合 <span class="sub">（滑過格子看次數）</span></figcaption>
+          <div class="confusion-wrap">
+            <div class="matrix" id="matrix" role="img" aria-label="混淆矩陣：列是正確答案，欄是模型判斷"></div>
+            <ul class="notes" id="top-confusions"></ul>
+          </div>
+          <p class="sub" id="matrix-readout">列是正確答案，欄是模型的判斷。對角線是答對的次數。</p>
+        </figure>
+      </div>
+    </section>
+
+    <details class="about">
+      <summary>關於這個作品</summary>
+      <div class="about-body">
+        <p>模型是一個全連接神經網路（784 → 11 → 73 → 52 → 61 → 10），以 NumPy 從頭訓練 30 輪後，把權重存成 JSON，在你的瀏覽器裡直接計算，不需要伺服器。<span id="training-info"></span></p>
+        <p>你寫的字只留在這個頁面，不會上傳。模型只學過單一的手寫數字，寫字母、多個數字或很潦草的字時，可能猜錯；分數是模型的相對信心，不是機率保證。</p>
+        <p class="links"><a href="https://github.com/Yunyuhu/AI-Vision-Demos">原始碼</a><a href="metrics.json">完整評估紀錄</a><a href="https://keras.io/api/datasets/mnist/">MNIST 資料集</a></p>
+      </div>
+    </details>
   </main>
   <script src="inference.js"></script>
   <script src="app.js"></script>
