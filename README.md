@@ -1,6 +1,6 @@
 # AI 影像辨識展示
 
-[直接開啟手寫數字辨識 Demo](https://yunyuhu.github.io/AI-Vision-Demos)
+[直接開啟手寫數字辨識 Demo](https://yunyuhu.github.io/AI-Vision-Demos/)
 
 目前已完成手寫數字辨識。其他影像辨識內容完成後再加入。
 
